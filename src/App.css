@@ -30,3 +30,12 @@
   margin-top: 50px;
   margin-left: 10%;
 }
+
+.welcomeMessage{
+  margin: 5% 0% 10% 0%;
+  text-align: center;
+}
+
+.spinner{
+  margin: 10% 0;
+}

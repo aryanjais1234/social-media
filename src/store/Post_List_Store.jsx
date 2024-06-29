@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 export const PostList = createContext({
   postList: [],
   addPost: () => {},
+  addInitialPost: () => {},
   deletePost: () => {}
 });
 
@@ -14,12 +15,15 @@ const postListReducer = (currPostList, action) => {
   else if(action.type==='ADD_POST'){
     newPostList = [action.payload, ...currPostList];
   }
+  else if(action.type==='ADD_INITIAL_POST'){
+    newPostList = action.payload.posts;
+  }
   return newPostList;
 }
 
 const PostListProvider = ({children}) => {
 
-  const [postList, dispatchPostList]= useReducer(postListReducer, DEFAULT_POST_LIST)
+  const [postList, dispatchPostList]= useReducer(postListReducer, [])
   const addPost = (userId, title, body, reactions, tags) => {
     dispatchPostList({
       type:'ADD_POST',
@@ -34,6 +38,15 @@ const PostListProvider = ({children}) => {
     })
   }
 
+  const addInitialPost = (posts) => {
+    dispatchPostList({
+      type:'ADD_INITIAL_POST',
+      payload:{
+        posts,
+      },
+    })
+  }
+
   const deletePost = (postId) => {
     dispatchPostList({
       type:'DELETE_POST',
@@ -44,44 +57,12 @@ const PostListProvider = ({children}) => {
   }
 
 
-  return <PostList.Provider value = {{ postList,addPost,deletePost,}
+  return <PostList.Provider value = {{ postList,addPost,addInitialPost,deletePost,}
   }>
     {children}
   </PostList.Provider>
 }
 
-const DEFAULT_POST_LIST = [{
-    id:'1',
-    title:'Going to Mumbai',
-    body:'Hi Friends, I am going to Mumbai for my vacations. Hope to enjoy a lot. Peace out',
-    reaction:12,
-    userId:'user-9',
-    tags:["vacation","Mumbai","Enjoying"],
-  },
-  {
-    id:'2',
-    title:'Going to Goa',
-    body:'Hi Friends, I am going to Goa for my vacations. Hope to enjoy a lot. Peace out',
-    reaction:22,
-    userId:'user-9',
-    tags:["vacation","Goa","Enjoying"],
-  },
-  {
-    id:'3',
-    title:'Going to Delhi',
-    body:'Hi Friends, I am going to Delhi for my vacations. Hope to enjoy a lot. Peace out',
-    reaction:20,
-    userId:'user-9',
-    tags:["vacation","Delhi","Enjoying"],
-  },
-  {
-    id:'4',
-    title:'Going to Bangalore',
-    body:'Hi Friends, I am going to Bangalore for my vacations. Hope to enjoy a lot. Peace out',
-    reaction:33,
-    userId:'user-9',
-    tags:["vacation","Bangalore","Enjoying"],
-  },
-];
+
 
 export default PostListProvider;
