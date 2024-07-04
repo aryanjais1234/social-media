@@ -23,8 +23,23 @@ const CreatePost = () =>{
     postBodyElement.current.value = '';
     reactionsElement.current.value = '';
     tagsElement.current.value = '';
+
+    fetch('https://dummyjson.com/posts/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: title,
+        body: body,
+        reactions:{
+          likes:reactions,
+        },
+        userId: userId,
+        tags:tags,
+      })
+    })
+    .then(res => res.json())
+    .then(post => addPost(post));
     
-    addPost(userId, title, body, reactions, tags);
   }
   return(
     <form className="create-post" onSubmit={handleSubmit}>

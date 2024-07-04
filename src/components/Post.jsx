@@ -15,7 +15,7 @@ function Post({post}) {
     <span key={tag} className="badge text-bg-primary hashtag">{tag}</span>
     ))}
     <div class="alert alert-success reactions" role="alert">
-      This post has been reated by {post.reactions.likes+post.reactions.dislikes} people.
+      This post has been reated by {post.reactions.likes} people.
 </div>
   </div>
 </div>
